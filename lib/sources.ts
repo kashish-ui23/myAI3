@@ -19,7 +19,6 @@ export function aggregateSourcesFromChunks(chunks: Chunk[]): Source[] {
                 source_url: chunk.source_url,
                 source_description: chunk.source_description,
                 source_type: chunk.source_type,
-                class_no: chunk.class_no,
             });
         }
 
@@ -49,7 +48,6 @@ export function mergeSourcesWithChunks(existingSources: Source[], newChunks: Chu
                 source_url: chunk.source_url,
                 source_description: chunk.source_description,
                 source_type: chunk.source_type,
-                class_no: chunk.class_no,
             };
             sourceMap.set(key, newSource);
             sourceOrder.push(key);
