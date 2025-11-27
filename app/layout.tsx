@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Load Inter and Geist Mono fonts
+// Load fonts with CSS variables
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -13,16 +13,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Metadata for SEO & browser tabs
 export const metadata: Metadata = {
-  title: "Assura — Life Insurance Policy Guide",
-  description: "Your guide to life insurance. Assura simplifies policy terms, coverage details, and exclusions for easy understanding.",
+  title: "Assura — Your guide to life insurance",
+  description: "Assura helps you understand life insurance policies in simple terms.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
