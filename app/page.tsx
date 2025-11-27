@@ -80,7 +80,6 @@ export default function Chat() {
     setIsClient(true);
     setDurations(stored.durations);
     setMessages(stored.messages);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -105,7 +104,7 @@ export default function Chat() {
         parts: [
           {
             type: "text",
-            text: "Your guide to life insurance. Ask about policy terms, coverage, exclusions, claim processes or waiting periods.",
+            text: "Clarity for every policy. Ask a question about coverage, exclusions, claims, or waiting periods.",
           },
         ],
       };
@@ -113,7 +112,6 @@ export default function Chat() {
       saveMessagesToStorage([welcomeMessage], {});
       welcomeMessageShownRef.current = true;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClient, initialMessages.length, setMessages]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -141,40 +139,46 @@ export default function Chat() {
     <div className="flex h-screen items-center justify-center font-sans dark:bg-black">
       <main className="w-full dark:bg-black h-screen relative">
         <div className="fixed top-0 left-0 right-0 z-50 bg-linear-to-b from-background via-background/50 to-transparent dark:bg-black overflow-visible pb-16">
-          <div className="relative overflow-visible">
-            <ChatHeader>
-              <ChatHeaderBlock />
-              <ChatHeaderBlock className="justify-center items-center">
-                <Avatar className="size-10 ring-2 ring-primary">
-                  <AvatarImage src="/logo.png" />
-                  <AvatarFallback>
-                    <Image src="/logo.png" alt="Logo" width={40} height={40} />
-                  </AvatarFallback>
-                </Avatar>
-                <div className="ml-2 text-center">
-                  <p className="text-lg font-semibold">Chat with Assura</p>
-                  <p className="text-sm text-muted-foreground">Your guide to life insurance</p>
-                </div>
-              </ChatHeaderBlock>
-              <ChatHeaderBlock className="justify-end">
-                <Button variant="outline" size="sm" className="cursor-pointer" onClick={clearChat}>
-                  <Plus className="size-4" />
-                  New chat
-                </Button>
-              </ChatHeaderBlock>
-            </ChatHeader>
-          </div>
+          <ChatHeader>
+            <ChatHeaderBlock />
+            <ChatHeaderBlock className="justify-center items-center">
+              <Avatar className="size-10 ring-1 ring-primary">
+                <AvatarImage src="/logo.png" />
+                <AvatarFallback>
+                  <Image src="/logo.png" alt="Logo" width={48} height={48} />
+                </AvatarFallback>
+              </Avatar>
+              <p className="tracking-tight">Chat with Assura</p>
+            </ChatHeaderBlock>
+            <ChatHeaderBlock className="justify-end">
+              <Button variant="outline" size="sm" className="cursor-pointer" onClick={clearChat}>
+                <Plus className="size-4" />
+                New chat
+              </Button>
+            </ChatHeaderBlock>
+          </ChatHeader>
         </div>
 
-        <div className="h-screen overflow-y-auto px-5 py-4 w-full pt-[100px] pb-[150px]">
+        <div className="h-screen overflow-y-auto px-5 py-4 w-full pt-[88px] pb-[150px]">
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
-                <MessageWall messages={messages} status={status} durations={durations} onDurationChange={handleDurationChange} />
-                {status === "submitted" && (
-                  <div className="flex justify-start max-w-3xl w-full">
-                    <Loader2 className="size-4 animate-spin text-muted-foreground" />
+                {messages.length === 0 ? (
+                  <div className="max-w-3xl w-full">
+                    <div className="bg-card border border-sidebar-border rounded-2xl p-10 text-center">
+                      <h1 className="text-4xl font-semibold text-primary mb-2">Clarity for every policy.</h1>
+                      <p className="text-muted-foreground mb-6">Your guide to life insurance</p>
+                    </div>
                   </div>
+                ) : (
+                  <>
+                    <MessageWall messages={messages} status={status} durations={durations} onDurationChange={handleDurationChange} />
+                    {status === "submitted" && (
+                      <div className="flex justify-start max-w-3xl w-full">
+                        <Loader2 className="size-4 animate-spin text-muted-foreground" />
+                      </div>
+                    )}
+                  </>
                 )}
               </>
             ) : (
@@ -204,7 +208,7 @@ export default function Chat() {
                             {...field}
                             id="chat-form-message"
                             className="h-15 pr-15 pl-5 bg-card rounded-[20px]"
-                            placeholder="Ask about life insurance coverage, terms, or exclusions..."
+                            placeholder="Ask about coverage, exclusions, or claims..."
                             disabled={status === "streaming"}
                             aria-invalid={fieldState.invalid}
                             autoComplete="off"
