@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MyAI3",
-  description: "MyAI3",
+  title: "Assura — Insurance Policy Explainer",
+  description: "Assura explains health, travel and car insurance policies in plain English.",
 };
 
 export default function RootLayout({
@@ -24,9 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>
