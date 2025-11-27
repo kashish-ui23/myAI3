@@ -105,7 +105,7 @@ export default function Chat() {
         parts: [
           {
             type: "text",
-            text: "Clarity for every policy. Upload a policy or ask a question about coverage, exclusions, claims, or waiting periods.",
+            text: "Your guide to life insurance. Ask about policy terms, coverage, exclusions, claim processes or waiting periods.",
           },
         ],
       };
@@ -145,13 +145,16 @@ export default function Chat() {
             <ChatHeader>
               <ChatHeaderBlock />
               <ChatHeaderBlock className="justify-center items-center">
-                <Avatar className="size-8 ring-1 ring-primary">
+                <Avatar className="size-10 ring-2 ring-primary">
                   <AvatarImage src="/logo.png" />
                   <AvatarFallback>
-                    <Image src="/logo.png" alt="Logo" width={36} height={36} />
+                    <Image src="/logo.png" alt="Logo" width={40} height={40} />
                   </AvatarFallback>
                 </Avatar>
-                <p className="tracking-tight">Chat with Assura</p>
+                <div className="ml-2 text-center">
+                  <p className="text-lg font-semibold">Chat with Assura</p>
+                  <p className="text-sm text-muted-foreground">Your guide to life insurance</p>
+                </div>
               </ChatHeaderBlock>
               <ChatHeaderBlock className="justify-end">
                 <Button variant="outline" size="sm" className="cursor-pointer" onClick={clearChat}>
@@ -163,66 +166,15 @@ export default function Chat() {
           </div>
         </div>
 
-        <div className="h-screen overflow-y-auto px-5 py-4 w-full pt-[88px] pb-[150px]">
+        <div className="h-screen overflow-y-auto px-5 py-4 w-full pt-[100px] pb-[150px]">
           <div className="flex flex-col items-center justify-end min-h-full">
             {isClient ? (
               <>
-                {/* HERO when there are no messages (or initial welcome only) */}
-                {messages.length === 0 ? (
-                  <div className="max-w-3xl w-full">
-                    <div className="bg-card border border-sidebar-border rounded-2xl p-10 text-center">
-                      <h1 className="text-4xl font-semibold text-primary mb-2">Clarity for every policy.</h1>
-                      <p className="text-muted-foreground mb-6">Understanding your Health, Travel and Car insurance made simple.</p>
-
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <button
-                          className="assura-cta"
-                          type="button"
-                          onClick={() => {
-                            toast.success("Try asking: 'Does my policy cover pre-existing conditions?'");
-                          }}
-                        >
-                          <Plus className="w-5 h-5" />
-                          Check Health Policy
-                        </button>
-
-                        <button
-                          className="assura-cta-outline"
-                          type="button"
-                          onClick={() => {
-                            const el = document.getElementById("policy-upload") as HTMLInputElement | null;
-                            el?.click();
-                          }}
-                        >
-                          <Plus className="w-5 h-5" />
-                          Upload Policy
-                        </button>
-                      </div>
-
-                      <input
-                        id="policy-upload"
-                        type="file"
-                        accept=".pdf"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            toast.success(`Uploaded ${file.name}. (Indexing simulated in demo)`);
-                            // TODO: call upload/index API
-                          }
-                        }}
-                      />
-                    </div>
+                <MessageWall messages={messages} status={status} durations={durations} onDurationChange={handleDurationChange} />
+                {status === "submitted" && (
+                  <div className="flex justify-start max-w-3xl w-full">
+                    <Loader2 className="size-4 animate-spin text-muted-foreground" />
                   </div>
-                ) : (
-                  <>
-                    <MessageWall messages={messages} status={status} durations={durations} onDurationChange={handleDurationChange} />
-                    {status === "submitted" && (
-                      <div className="flex justify-start max-w-3xl w-full">
-                        <Loader2 className="size-4 animate-spin text-muted-foreground" />
-                      </div>
-                    )}
-                  </>
                 )}
               </>
             ) : (
@@ -252,7 +204,7 @@ export default function Chat() {
                             {...field}
                             id="chat-form-message"
                             className="h-15 pr-15 pl-5 bg-card rounded-[20px]"
-                            placeholder="Ask about coverage, exclusions, claims or upload a policy..."
+                            placeholder="Ask about life insurance coverage, terms, or exclusions..."
                             disabled={status === "streaming"}
                             aria-invalid={fieldState.invalid}
                             autoComplete="off"
